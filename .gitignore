@@ -20,7 +20,7 @@ docs/_build/
 .vscode
 
 uploads/**
-
+uploads/.gitkeep
 # Coverage reports
 htmlcov/
 .coverage
