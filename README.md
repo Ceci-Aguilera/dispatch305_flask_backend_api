@@ -30,12 +30,11 @@
     ```
 
     __NOTE:__ In case of an error regarding revision of migration, run:
-        
-        ```
-            flask db revision --rev-id <revision_id_in_error>
-            flask db migrate
-            flask db upgrade
-        ```
+    ```
+        flask db revision --rev-id <revision_id_in_error>
+        flask db migrate
+        flask db upgrade
+    ```
 
 1. Run the app
     ```
