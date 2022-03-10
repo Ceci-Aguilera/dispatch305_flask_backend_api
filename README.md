@@ -33,9 +33,7 @@
         
         ```
             flask db revision --rev-id <revision_id_in_error>
-
             flask db migrate
-            
             flask db upgrade
         ```
 

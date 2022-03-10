@@ -19,7 +19,7 @@ _mailinglist
 docs/_build/
 .vscode
 
-.uploads/**
+uploads/**
 
 # Coverage reports
 htmlcov/
