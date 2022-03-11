@@ -1,5 +1,8 @@
 import os
 from http import HTTPStatus
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
 
 
 from flask import request
@@ -9,7 +12,8 @@ from flask_jwt_extended import (
 	create_access_token,
 	create_refresh_token,
 	jwt_required,
-	get_jwt_identity
+	get_jwt_identity,
+	get_jwt
 )
 
 from werkzeug.utils import secure_filename
@@ -18,6 +22,7 @@ from werkzeug.utils import secure_filename
 
 from .models import User
 from flask import current_app
+from config import db
 
 
 
@@ -28,6 +33,7 @@ signup_model = user_account_namespace.model(
 		'company_name': fields.String(required=True, description="A company name"),
 		'contact_name': fields.String(required=True, description="A contact name"),
 		'email': fields.String(required=True, description="An email"),
+		'phone': fields.String(required=True, description="An phone"),
 		'password': fields.String(required=True, description="A password"),
 		'current_plan': fields.String(description="A current plan",
 			required=True, enum=['BASICO', 'VIP']
@@ -65,6 +71,7 @@ class SignUp(Resource):
 				email=data.get('email'),
 				company_name=data.get('company_name'),
 				contact_name=data.get('contact_name'),
+				phone=data.get('phone'),
 				password_hash=generate_password_hash('default123!'),
 				current_plan=data.get('current_plan')
 			)
@@ -157,3 +164,55 @@ class UploadNewDocuments(Resource):
 			return "Error", HTTPStatus.BAD_REQUEST
 
 
+
+
+
+
+@user_account_namespace.route('/check-auth')
+class CheckAuth(Resource):
+
+	
+	@jwt_required(refresh=False)
+	@user_account_namespace.marshal_with(signup_model)
+	def get(self):
+		"""
+			Check if User is Logged in and send data of User
+		"""
+
+		try:
+			email = get_jwt_identity()
+			user = User.query.filter_by(email=email).first()
+
+			return user, HTTPStatus.OK
+
+		except:
+			return "Error", HTTPStatus.BAD_REQUEST
+
+
+
+
+@user_account_namespace.route('/edit-info')
+class EditInfo(Resource):
+
+	
+	@jwt_required(refresh=False)
+	@user_account_namespace.marshal_with(signup_model)
+	def post(self):
+		"""
+			Edit info in User Account
+		"""
+
+		try:
+			email = get_jwt_identity()
+			user = User.query.filter_by(email=email).first()
+
+			data = request.get_json()
+			user.contact_name = data.get("contact_name");
+			user.company_name = data.get("company_name");
+			user.phone = data.get("phone")
+			user.update()
+
+			return user, HTTPStatus.OK
+
+		except:
+			return "Error", HTTPStatus.BAD_REQUEST
