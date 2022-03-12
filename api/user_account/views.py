@@ -281,3 +281,37 @@ class UpdateDocument(Resource):
 		# except:
 		else:
 			return "Error", HTTPStatus.BAD_REQUEST
+
+
+
+
+@user_account_namespace.route('/reset-password')
+class ResetPassword(Resource):
+
+	
+	@jwt_required(refresh=False)
+	@user_account_namespace.marshal_with(user_info_model)
+	def post(self):
+		"""
+			Reset password in User Account
+		"""
+
+		try:
+			email = get_jwt_identity()
+			user = User.query.filter_by(email=email).first()
+
+			data = request.get_json()
+			password = data.get('password')
+			re_password = data.get("re_password")
+
+			if password != re_password:
+				return "Error", HTTPStatus.BAD_REQUEST
+
+			user.password_hash = generate_password_hash(password)
+
+			user.update()
+
+			return user, HTTPStatus.OK
+
+		except:
+			return "Error", HTTPStatus.BAD_REQUEST
