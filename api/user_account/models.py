@@ -21,6 +21,8 @@ class User(db.Model):
     password_hash = db.Column(db.Text(), nullable=False)
     phone = db.Column(db.String(50), nullable=True)
 
+    pending_bill = db.Column(db.Float(), default=0.0)
+
     current_plan = db.Column(db.Enum(CurrentPlanStatus), default=CurrentPlanStatus.BASICO)
     
 

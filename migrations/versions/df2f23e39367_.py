@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c87d9f9c7012
+Revision ID: df2f23e39367
 Revises: 
-Create Date: 2022-03-09 17:22:32.660633
+Create Date: 2022-03-11 20:18:32.749190
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c87d9f9c7012'
+revision = 'df2f23e39367'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,6 +25,7 @@ def upgrade():
     sa.Column('contact_name', sa.String(length=50), nullable=True),
     sa.Column('password_hash', sa.Text(), nullable=False),
     sa.Column('phone', sa.String(length=50), nullable=True),
+    sa.Column('pending_bill', sa.Float(), nullable=True),
     sa.Column('current_plan', sa.Enum('BASICO', 'VIP', name='currentplanstatus'), nullable=True),
     sa.Column('is_staff', sa.Boolean(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
@@ -35,14 +36,14 @@ def upgrade():
     op.create_table('requestcargos',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('request_cargo_status', sa.Enum('SEARCHING', 'FOUND', 'CANCEL', name='requeststatus'), nullable=True),
-    sa.Column('pricing', sa.Float(), nullable=False),
+    sa.Column('pricing', sa.Float(), nullable=True),
     sa.Column('state_from', sa.String(length=50), nullable=False),
     sa.Column('state_to', sa.String(length=50), nullable=False),
     sa.Column('date_created', sa.DateTime(), nullable=True),
     sa.Column('date_founded', sa.DateTime(), nullable=True),
     sa.Column('user', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id', 'pricing')
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 

@@ -20,7 +20,7 @@ class TrucksCargo(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     request_cargo_status = db.Column(db.Enum(RequestStatus), default=RequestStatus.SEARCHING)
-    pricing = db.Column(db.Float(), primary_key=True)
+    pricing = db.Column(db.Float(), default=0.0)
     state_from = db.Column(db.String(50), nullable=False)
     state_to = db.Column(db.String(50), nullable=False)
     date_created = db.Column(db.DateTime(), default=datetime.utcnow)
