@@ -47,8 +47,8 @@ class MessageView(ModelView):
 
 class UserAdminView(ModelView):
 
-    column_exclude_list = ('password', 'confirmed_at', 'fs_uniquifier')
-    form_excluded_columns = ('password', 'confirmed_at', 'fs_uniquifier')
+    column_exclude_list = ('password', 'confirmed_at', )
+    form_excluded_columns = ('password', 'confirmed_at',)
     column_auto_select_related = True
 
     def is_accessible(self):
@@ -71,14 +71,18 @@ class RoleAdminView(ModelView):
     def is_accessible(self):
         return current_user.has_role('admin')
 
+    def __hash__(self):
+        return hash(self.name)
+
 
 
 
 class AdminView(AdminIndexView):
 
     def is_accessible(self):
+        print(current_user)
         print(current_user.roles)
-        return current_user.has_role('admin')
+        return current_user.has_role('admin') or current_user.has_role('staff')
 
     @expose('/')
     def index(self):

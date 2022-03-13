@@ -84,6 +84,7 @@ def create_app(config_env='development'):
         # user_datastore.delete_user(user)
         # db.session.commit()
 
+
         if not user_datastore.find_user(email=config_obj.ADMIN_EMAIL_CREDIENTIAL):
             db.create_all()
             user_datastore.find_or_create_role(name='admin', description='Administrator')
@@ -92,13 +93,14 @@ def create_app(config_env='development'):
             db.session.commit()
             
         else:
+            # user_datastore.create_user(email="someEmail@gmail.com", password="defualt123", roles=['staff'])
+            # db.session.commit()
             pass
 
         
 
-    
-    @login_required
     @app.route('/login')
+    @login_required
     def login():
         return redirect('/admin')
 
