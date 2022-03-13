@@ -1,40 +1,51 @@
+from datetime import timedelta
+from decouple import config
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-from decouple import config
-from datetime import timedelta
 
 class Config(object):
     DEBUG = False
     TESTING = False
     SECRET_KEY = config('SECRET_KEY', "SECRET_KEY")
-    JWT_ACCESS_TOKEN_EXPIRES=timedelta(minutes=30)
-    JWT_REFRESH_TOKEN_EXPIRES=timedelta(minutes=30)
-    JWT_SECRET_KEY=config('JWT_SECRET_KEY')
-    UPLOAD_FOLDER="uploads/"
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(minutes=30)
+    JWT_SECRET_KEY = config('JWT_SECRET_KEY')
+    UPLOAD_FOLDER = "uploads/"
     ALLOWED_EXTENSIONS = set(['pdf'])
-    SECURITY_PASSWORD_SALT=config('SECURITY_PASSWORD_SALT', 'SECURITY_PASSWORD_SALT')
-    ADMIN_EMAIL_CREDIENTIAL=config('ADMIN_EMAIL_CREDIENTIAL', 'ADMIN_EMAIL_CREDIENTIAL')
-    ADMIN_PASSWORD_CREDENTIAL=config('ADMIN_PASSWORD_CREDENTIAL', 'ADMIN_PASSWORD_CREDENTIAL')
-    SECURITY_POST_LOGIN_VIEW='/admin'
-    LOGIN_DISABLED=False
-    WTF_CSRF_ENABLED=False
+    SECURITY_PASSWORD_SALT = config(
+        'SECURITY_PASSWORD_SALT', 'SECURITY_PASSWORD_SALT')
+    ADMIN_EMAIL_CREDIENTIAL = config(
+        'ADMIN_EMAIL_CREDIENTIAL', 'ADMIN_EMAIL_CREDIENTIAL')
+    ADMIN_PASSWORD_CREDENTIAL = config(
+        'ADMIN_PASSWORD_CREDENTIAL', 'ADMIN_PASSWORD_CREDENTIAL')
+    SECURITY_POST_LOGIN_VIEW = '/admin'
+    LOGIN_DISABLED = False
+    WTF_CSRF_ENABLED = False
 
 
 class ProductionConfig(Config):
     DEVELOPMENT = False
     TESTING = False
     DEBUG = False
-    UPLOAD_FOLDER="uploads/"
+    UPLOAD_FOLDER = "uploads/"
     SQLALCHEMY_DATABASE_URI = config('DATABASE_URI', "DATABASE_URI")
 
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://test_user:test_pass@localhost:5432/test_db'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}'.format(config(
+        'POSTGRES_DB_USER_DEV', default="test_user"), config('POSTGRES_DB_PASS_DEV', default="test_pass"),
+        config('POSTGRES_DB_HOST_DEV', default="localhost"),  config(
+            'POSTGRES_DB_PORT_DEV', default="5432"),
+        config('POSTGRES_DB_NAME_DEV', default="test_db"))
 
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = config('DATABASE_URI', "DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}'.format(config(
+        'POSTGRES_DB_USER_TEST', default="NONE"), config('POSTGRES_DB_PASS_TEST', default="NONE"),
+        config('POSTGRES_DB_HOST_TEST', default="db"),  config(
+            'POSTGRES_DB_PORT_TEST', default="5432"),
+        config('POSTGRES_DB_NAME_TEST', default="NONE"))
