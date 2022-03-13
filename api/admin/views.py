@@ -121,8 +121,6 @@ class RoleAdminView(ModelView):
 class AdminView(AdminIndexView):
 
     def is_accessible(self):
-        print(current_user)
-        print(current_user.roles)
         return current_user.has_role('admin') or current_user.has_role('staff')
 
     @expose('/')
