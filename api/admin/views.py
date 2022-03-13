@@ -1,7 +1,7 @@
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import BaseView, expose, AdminIndexView
 from flask_admin.actions import action
-from flask import render_template, flash
+from flask import render_template, flash, Markup
 from wtforms.fields import PasswordField
 
 from api.user_account.models import User
@@ -25,6 +25,47 @@ class UserView(ModelView):
     column_exclude_list = ['password_hash', 'is_staff', 'is_admin', ]
     column_filters = ['is_active', 'pending_bill']
 
+
+
+    def _authority_letter_formatter(view, context, model, name):
+        if model.email:
+           markupstring = "<a href='/user-account/pdf-browser-viewer/%s/authority_letter' target='_blank'>Authority Letter.pdf</a>" % (model.email)
+           return Markup(markupstring)
+        else:
+           return ""
+
+    def _w9_formatter(view, context, model, name):
+        if model.email:
+           markupstring = "<a href='/user-account/pdf-browser-viewer/%s/w9' target='_blank'>W9.pdf</a>" % (model.email)
+           return Markup(markupstring)
+        else:
+           return ""
+
+    def _insurance_formatter(view, context, model, name):
+        if model.email:
+           markupstring = "<a href='/user-account/pdf-browser-viewer/%s/insurance' target='_blank'>Insurance.pdf</a>" % (model.email)
+           return Markup(markupstring)
+        else:
+           return ""
+
+    def _noa_formatter(view, context, model, name):
+        if model.email:
+           markupstring = "<a href='/user-account/pdf-browser-viewer/%s/noa' target='_blank'>NOA.pdf</a>" % (model.email)
+           return Markup(markupstring)
+        else:
+           return ""
+
+    column_formatters = {
+        'authority_letter': _authority_letter_formatter,
+        'w9': _w9_formatter,
+        'insurance': _insurance_formatter,
+        'noa': _noa_formatter
+    }
+
+
+
+    column_list=('email', 'contact_name', 'company_name', 'phone', 'pending_bill', 'is_active', 'current_plan', 'authority_letter', 'w9', 'insurance', 'noa')
+
     form_excluded_columns = ['password_hash', 'is_staff', 'is_admin', 'trucks_cargos']
 
     
@@ -47,7 +88,7 @@ class MessageView(ModelView):
 
 class UserAdminView(ModelView):
 
-    column_exclude_list = ('password', 'confirmed_at', )
+    column_exclude_list = ('password', 'confirmed_at',)
     form_excluded_columns = ('password', 'confirmed_at',)
     column_auto_select_related = True
 

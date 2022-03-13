@@ -315,3 +315,17 @@ class ResetPassword(Resource):
 
 		except:
 			return "Error", HTTPStatus.BAD_REQUEST
+
+
+@user_account_namespace.route('/pdf-browser-viewer/<email>/<document_name>')
+class PDFBrowserViewer(Resource):
+	def get(self, email, document_name):
+		"""
+			View Document PDF
+		"""
+		try:
+			workingdir = os.path.abspath(os.getcwd())
+			filepath = workingdir + '/uploads/' + '{}'.format(email) + '/'
+			return send_from_directory(filepath, '{}'.format(document_name) + '-' + '{}'.format(email)+'.pdf')
+		except:
+			return "No such PDF", HTTPStatus.BAD_REQUEST
