@@ -2,6 +2,8 @@ from config import db
 
 from enum import Enum
 
+from api.admin.models import Role, roles_users
+
 # ===========================================
 #  HELPERS
 # ===========================================
@@ -26,9 +28,7 @@ class User(db.Model):
     current_plan = db.Column(db.Enum(CurrentPlanStatus), default=CurrentPlanStatus.BASICO)
     
 
-    is_staff = db.Column(db.Boolean(), default=False)
     is_active = db.Column(db.Boolean(), default=False)
-    is_admin = db.Column(db.Boolean(), default=False)
 
     trucks_cargos = db.relationship("TrucksCargo", backref='driver', lazy=True)
 
