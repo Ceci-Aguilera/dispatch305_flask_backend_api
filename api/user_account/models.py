@@ -30,6 +30,8 @@ class User(db.Model):
 
     is_active = db.Column(db.Boolean(), default=False)
 
+    dispatcher = db.Column(db.Integer(), db.ForeignKey("useradmin.id"))
+
     trucks_cargos = db.relationship("TrucksCargo", backref='driver', lazy=True)
 
 
@@ -41,7 +43,8 @@ class User(db.Model):
         db.session.commit()
 
 
-
+    def __str__(self):
+        return str(self.id) + " - " + str(self.email)
 
     def __repr__(self):
         return f"<User {self.email} - {self.company_name}>"

@@ -24,4 +24,12 @@ class UserAdmin(db.Model, UserMixin):
     fs_uniquifier = db.Column(db.String(255))
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('useradmins', lazy='dynamic'))
+    trucks_cargos = db.relationship("TrucksCargo", backref='user_dispatcher', lazy=True)
+    clients = db.relationship("User", backref='user_dispatcher', lazy=True)
+
+    def __repr__(self):
+        if self.has_role('admin'):
+            return f"<Admin {self.id} - {self.email}>"
+        else:
+            return f"<Dispatcher {self.id} - {self.email}>"
     

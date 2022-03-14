@@ -16,10 +16,10 @@ from .user_account.views import user_account_namespace
 from .trucks_cargo.views import trucks_cargo_namespace
 from .message.views import message_namespace
 # from .admin.views import admin_blueprint
-from .admin.views import UserView, TruckCargoView, MessageView, AdminView, UserAdminView, RoleAdminView
+from .admin.views import UserView, TruckCargoView, MessageView, AdminView, UserAdminView, RoleAdminView, BrokerView
 
 from .user_account.models import User
-from .trucks_cargo.models import TrucksCargo
+from .trucks_cargo.models import TrucksCargo, Broker
 from .message.models import Message
 from .admin.models import UserAdmin, Role
 
@@ -59,6 +59,7 @@ def create_app(config_env='development'):
     admin = Admin(app, index_view=AdminView())
     admin.add_view(UserView(User, db.session))
     admin.add_view(TruckCargoView(TrucksCargo, db.session))
+    admin.add_view(BrokerView(Broker, db.session))
     admin.add_view(MessageView(Message, db.session))
     admin.add_view(UserAdminView(UserAdmin, db.session))
     admin.add_view(RoleAdminView(Role, db.session))
@@ -73,7 +74,8 @@ def create_app(config_env='development'):
             "TrucksCargo": TrucksCargo,
             "Message": Message,
             'UserAdmin': UserAdmin,
-            'Role': Role
+            'Role': Role,
+            'Broker': Broker
         }
 
     # Only needed on first execution to create first user

@@ -2,8 +2,8 @@
 
 
 # Table of Contents
-1. [Custom Installation](#installation)
-2. [Quick Installation for testing using Docker](#docker)
+1. [Quick Installation for testing using Docker](#docker)
+2. [Custom Installation](#installation)
 3. [Structure and apps](#structure)
 4. [Deploying in VPS](#deploy)
 5. [Connecting to the React frontend](#frontend)
@@ -14,8 +14,44 @@
 
 
 
+
+
+
+<a name="docker"></a>
+### Quick Installation for testing using Docker
+
+1. Clone Repo
+    ```
+        git clone https://github.com/Ceci-Aguilera/dispatch305_flask_backend_api.git
+    ```
+1. Install Docker and Docker Compose
+1. Run the command:
+   ```
+       docker-compose up -d --build
+   ```
+1. Congratulations =) !!! the app should be running in [localhost:5000](http://localhost:5000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <a name="installation"></a>
-### Installation
+### Custom Installation
 
 1. Clone Repo
     ```
@@ -36,15 +72,20 @@
         Database host: localhost
         Database port: 5432
     ```
-1. Create .env file inside the config folder and set up the following env variables:
+1. Config the env variables using one of the following methods:
+	1. Create .env file inside the config folder and set up the following env variables:
 	```
-    	SECRET_KEY                 		(for example "someSecretKey")
-        JWT_SECRET_KEY                  (use secrets.token_hex(16) from python secrets)
+    	SECRET_KEY                 		(for example "someSecurityPassword")
+        JWT_SECRET_KEY                  (use secrets.token_hex(12) from python secrets)
         SECURITY_PASSWORD_SALT          (for example "someSecurityPassword")
         ADMIN_EMAIL_CREDIENTIAL         (email to use to create a Admin user)
         ADMIN_PASSWORD_CREDENTIAL       (the password for the Admin user)
     ```
-
+	or
+    2. Copy the the content of the .example.env file to the .env file:
+    ```
+    	cp config/.example.env config/.env
+    ```
 
 1. Run the migrations
     ```
@@ -73,23 +114,6 @@
 __NOTE:__ The command __flask run__ will run the app with the default config from flask (debug=False, ...) while __python app.py__ will run the app with the custom config set in the file  __config/config.py__. To change the initial configuration edit the files __app.py__ and __config/config.py__ files. The env variables for the __config/config.py__ files are retrieved from __config/.env__ using __decouple.config__.
 
 1. Congratulations =) !!! the app should be running in [localhost:5000](http://localhost:5000) for _flask run_ or [localhost:5050](http://localhost:5050) if using _python app.py_.
-
-
-
-
-<a name="docker"></a>
-### Quick Installation for testing using Docker
-
-1. Clone Repo
-    ```
-        git clone https://github.com/Ceci-Aguilera/dispatch305_flask_backend_api.git
-    ```
-1. Install Docker and Docker Compose
-1. Run the command:
-   ```
-       docker-compose up -d --build
-   ```
-1. Congratulations =) !!! the app should be running in [localhost:5000](http://localhost:5000)
 
 
 
@@ -139,6 +163,12 @@ __NOTE:__ The command __flask run__ will run the app with the default config fro
 - [Send pdf file to Frontend](https://docs.faculty.ai/user-guide/apis/flask_apis/flask_file_upload_download.html)
 - [Render PDF file in Browser using Flask](https://artsysops.com/2021/01/02/how-to-open-a-pdf-file-on-the-browser-with-flask/)
 
+
+#### Docker and Docker Compose with Flask + Postgresql
+- [Dockerize Flask app with Postgresql, Guinicorn and Nginx](https://testdriven.io/blog/dockerizing-flask-with-postgres-gunicorn-and-nginx/#gunicorn)
+- [Pyhton Slim Buster error with gcc](https://github.com/watson-developer-cloud/python-sdk/issues/418)
+- Using sh file in docker to init flask and run migrations: [Fix slim-buster with netcat, gcc, and g++](https://stackoverflow.com/questions/61726605/docker-entrypoint-sh-not-found)
+- Why not using volumes in docker-compose for flask files: [Fix migrations folder is created and not empty error](https://stackoverflow.com/questions/69297600/why-isnt-my-dockerignore-file-ignoring-files)
 
 
 
