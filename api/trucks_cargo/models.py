@@ -38,6 +38,7 @@ class TrucksCargo(db.Model):
     user = db.Column(db.Integer(), db.ForeignKey("users.id"))
     dispatcher = db.Column(db.Integer(), db.ForeignKey("useradmin.id"))
     broker = db.Column(db.Integer(), db.ForeignKey("brokers.id"))
+    is_charged = db.Column(db.Boolean(), default=False)
 
     def __str__(self):
         return str(self.id) + " - " + str(self.request_cargo_status)

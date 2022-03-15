@@ -16,7 +16,7 @@ from .user_account.views import user_account_namespace
 from .trucks_cargo.views import trucks_cargo_namespace
 from .message.views import message_namespace
 # from .admin.views import admin_blueprint
-from .admin.views import UserView, TruckCargoView, MessageView, AdminView, UserAdminView, RoleAdminView, BrokerView
+from .admin.views import UserView, TruckCargoView, MessageView, AdminView, UserAdminView, RoleAdminView, BrokerView, staff_namespace
 
 from .user_account.models import User
 from .trucks_cargo.models import TrucksCargo, Broker
@@ -63,6 +63,8 @@ def create_app(config_env='development'):
     admin.add_view(MessageView(Message, db.session))
     admin.add_view(UserAdminView(UserAdmin, db.session))
     admin.add_view(RoleAdminView(Role, db.session))
+
+    app.register_blueprint(staff_namespace)
 
     # app.register_blueprint(admin_blueprint, url_prefix="/admin-panel")
 

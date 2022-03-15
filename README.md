@@ -126,6 +126,28 @@ __NOTE:__ The command __flask run__ will run the app with the default config fro
 
 
 
+<a name="structure"></a>
+### Structure and Apps
+
+#### Brief Introduction
+Dipatch305 is a service that helps dispatchers communicates with both divers and brokers. From now on, we call DISPATCH305 to refer to the company, and also  _drivers_ will be called _clients_ while _dispatchers_ will be called _staff members_. In addition, the services offered by the website will be referred as:
+- _Searching a Cargo_: When a client requests the dispatcher to look out for an Agency with a Cargo to transport from a point in the map to another. In this case the staff member should contact a broker (Agency) and make the arraignments.
+- _Sending Analytics_: Every Friday, a bill should be sent to every client with the weekly pending bill amount, and a description of the charges. In addition, for the clients with a VIP account, an analytics resume of the week should also be sent.
+- _Managing POD_: When a Cargo is delivered, the VIP clients may request the staff member to manage the sending of the _Rate Conf_ and the _POD_ (this are 2 PDF files needed as proof of service and delivery).
+
+#### Basic Workflow of the Website
+1. First, the client registers at [dispatch305.com](https://www.dispatch305.com/create-account) (the Frontend website created using REACT.js). During this step, the client should provide basic account information such as name, company, ..., and should also upload the 4 basic PDF files that most brokers require for hiring them to deliver cargo.
+2. When the new account is created, it is set to inactive and the _Admin User_ is notified. The, the _Admin User_ assigns a staff member to the client. From this point on, the staff member is said to be the client's dispatcher. The client must download the PDF that is under the section Agreement in the Frontend app. Once this steps are completed, the client's account is set to active.
+3. From now on, clients with a plan BASICO (basic account) can request the dispatcher to offer the service of _Serching a Cargo_, while VIP clients can ask for the services of _Searching a Cargo_, _Sending Analytics_, and  _Managing POD_. Regarless of which type of account a client has, a Bill will be sent to them with the pending amount to pay for the services offered in that week from DISPATCH305. When a user fails to pay the weekly bill (usually a timeline of 3 days offered), the account becomes inactive until the bill is paid. 
+4. After the user requests a _Serching a Cargo_ service, and the Cargo is found by the staff member, and later delivered by the client, if the client has a VIP account, the staff member can be requested to offer a _Managing POD_ service. In order to do that, the client must send the PDF files required, and the staff member should upload them to DISPATCH305's Admin Panel.
+
+
+
+
+
+
+
+
 
 <a name="useful_links"></a>
 ### Useful Links

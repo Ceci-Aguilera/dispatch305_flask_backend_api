@@ -27,6 +27,11 @@ class UserAdmin(db.Model, UserMixin):
     trucks_cargos = db.relationship("TrucksCargo", backref='user_dispatcher', lazy=True)
     clients = db.relationship("User", backref='user_dispatcher', lazy=True)
 
+    amount_owned_to_admin = db.Column(db.Float(), default=0.0)
+
+    def update(self):
+        db.session.commit()
+
     def __repr__(self):
         if self.has_role('admin'):
             return f"<Admin {self.id} - {self.email}>"
