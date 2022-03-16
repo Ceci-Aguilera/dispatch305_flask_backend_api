@@ -230,7 +230,9 @@ and then
 	gunicorn --bind 0.0.0.0:5050 wsgi:app
 ```
 
-Complete the setup of the website with this [link](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+11. Complete the setup of the website with this [link](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+
+12. Set up Cors to allow the frontend to fetch and post requests ([See Useful Links](#useful_links))
 
 
 
