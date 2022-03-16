@@ -1,4 +1,4 @@
-# DISPATCH305 FLASK BACKEND API
+)# DISPATCH305 FLASK BACKEND API
 
 
 # Table of Contents
@@ -25,6 +25,25 @@
         git clone https://github.com/Ceci-Aguilera/dispatch305_flask_backend_api.git
     ```
 1. Install Docker and Docker Compose
+1. Config the env variables using one of the following methods:
+	1. Create .env file inside the config folder and set up the following env variables:
+	```
+    	SECRET_KEY                 		(for example "someSecurityPassword")
+        JWT_SECRET_KEY                  (use secrets.token_hex(12) from python secrets)
+        SECURITY_PASSWORD_SALT          (for example "someSecurityPassword")
+        ADMIN_EMAIL_CREDIENTIAL         (email to use to create a Admin user)
+        ADMIN_PASSWORD_CREDENTIAL       (the password for the Admin user)
+        MAIL_SERVER						(the server for sending emails using Flask-Mail)
+        MAIL_PORT
+        MAIL_PASSWORD
+        MAIL_STRING_ID					(a short reandom string to pass when using office 365)
+    ```
+	or
+    2. Copy and modify the the content of the .example.env file to the .env file:
+    ```
+    	cp config/.example.env config/.env
+    ```
+ 
 1. Run the command:
    ```
        docker-compose up -d --build
@@ -63,6 +82,8 @@
     ```
         pip install -r requirements.txt
     ```
+    
+1. Open the app.py file and change the parameter of create_app to 'development' (by default it is set to production)
 
 1. Set up postgresql database ([See Useful Links](#useful_links)). For development the default credentials are:
     ```
@@ -80,9 +101,13 @@
         SECURITY_PASSWORD_SALT          (for example "someSecurityPassword")
         ADMIN_EMAIL_CREDIENTIAL         (email to use to create a Admin user)
         ADMIN_PASSWORD_CREDENTIAL       (the password for the Admin user)
+        MAIL_SERVER						(the server for sending emails using Flask-Mail)
+        MAIL_PORT
+        MAIL_PASSWORD
+        MAIL_STRING_ID					(a short reandom string to pass when using office 365)
     ```
 	or
-    2. Copy the the content of the .example.env file to the .env file:
+    2. Copy and modify the the content of the .example.env file to the .env file:
     ```
     	cp config/.example.env config/.env
     ```
@@ -193,6 +218,9 @@ Dipatch305 is a service that helps dispatchers communicates with both divers and
 - Why not using volumes in docker-compose for flask files: [Fix migrations folder is created and not empty error](https://stackoverflow.com/questions/69297600/why-isnt-my-dockerignore-file-ignoring-files)
 
 
+#### Sending Emails with Flask-Mail:
+- [Flask-Mail official documentation](https://pythonhosted.org/Flask-Mail/)
+- [Flask-Mail with office 365 services issue with ID Stackoverflow Fix](https://stackoverflow.com/questions/54600601/i-am-using-office-and-flask-mail)
 
 
 
