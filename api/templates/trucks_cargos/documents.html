@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Trucks Cargos Documents</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/documents.css') }}"
+            />
+            <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+            />
+    </head>
+    <body>
+        <h1>
+            Trucks Cargos
+        </h1>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-div-wrapper">
+
+                <div class="document-div">
+                    <a href="/staff/truck-cargos-documents/{{id}}/rate-confirmation" target="_blank">
+                        Rate Confirmation
+                    </a>
+
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" name="rate-confirmation" />
+                    </div>
+                    
+                </div>
+
+
+                <div class="document-div">
+                    <a href="/staff/truck-cargos-documents/{{id}}/pod" target="_blank">
+                        POD
+                    </a>
+
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" name="pod" />
+                    </div>
+                    
+                </div>
+
+                <div class="button-div">
+                    <input class="btn btn-primary" type="submit" value="Upload" />
+                </div>
+
+            </div>
+          </form>
+
+
+        
+
+
+        
+          <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+          crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

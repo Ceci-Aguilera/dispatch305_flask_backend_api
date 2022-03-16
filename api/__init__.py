@@ -12,6 +12,8 @@ from flask_cors import CORS
 from flask_security import current_user, login_required, RoleMixin, Security, SQLAlchemyUserDatastore, UserMixin
 
 
+from flask_mail import Mail
+
 from .user_account.views import user_account_namespace
 from .trucks_cargo.views import trucks_cargo_namespace
 from .message.views import message_namespace
@@ -25,6 +27,8 @@ from .admin.models import UserAdmin, Role
 
 from config import db,config
 
+
+mail = Mail()
 
 # ========================================================
 # Create App
@@ -50,6 +54,7 @@ def create_app(config_env='development'):
 
     jwt = JWTManager(app)
 
+
     api = Api(app)
 
     api.add_namespace(user_account_namespace, path='/user-account')
@@ -65,6 +70,8 @@ def create_app(config_env='development'):
     admin.add_view(RoleAdminView(Role, db.session))
 
     app.register_blueprint(staff_namespace)
+
+    mail.init_app(app)
 
     # app.register_blueprint(admin_blueprint, url_prefix="/admin-panel")
 

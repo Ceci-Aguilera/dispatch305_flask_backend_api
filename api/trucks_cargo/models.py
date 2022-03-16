@@ -25,6 +25,7 @@ class TrucksCargo(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     request_cargo_status = db.Column(db.Enum(RequestStatus), default=RequestStatus.SEARCHING)
     pricing = db.Column(db.Float(), default=0.0)
+    total_owned = db.Column(db.Float(), default=0.0)
     miles = db.Column(db.Float(), default=0.0)
     weight = db.Column(db.Float(), default=0.0)
     state_from = db.Column(db.Enum(USAState), default=USAState.FL)
@@ -39,6 +40,15 @@ class TrucksCargo(db.Model):
     dispatcher = db.Column(db.Integer(), db.ForeignKey("useradmin.id"))
     broker = db.Column(db.Integer(), db.ForeignKey("brokers.id"))
     is_charged = db.Column(db.Boolean(), default=False)
+
+
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
 
     def __str__(self):
         return str(self.id) + " - " + str(self.request_cargo_status)
