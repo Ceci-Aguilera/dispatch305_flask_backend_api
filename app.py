@@ -3,7 +3,7 @@ from api import create_app
 # ========================================================
 # Run App
 # ========================================================
-app = create_app('development')
+app = create_app('production')
 
 
 def runserver():

@@ -36,7 +36,11 @@ class ProductionConfig(Config):
     TESTING = False
     DEBUG = False
     UPLOAD_FOLDER = "uploads/"
-    SQLALCHEMY_DATABASE_URI = config('DATABASE_URI', "DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}'.format(config(
+        'POSTGRES_DB_USER_PRODUCTION', default="NONE"), config('POSTGRES_DB_PASS_PRODUCTION', default="NONE"),
+        config('POSTGRES_DB_HOST_PRODUCTION', default="NONE"),  config(
+            'POSTGRES_DB_PORT_PRODUCTION', default="5432"),
+        config('POSTGRES_DB_NAME_PRODUCTION', default="NONE"))
 
 
 class DevelopmentConfig(Config):
