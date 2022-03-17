@@ -55,7 +55,7 @@ def create_app(config_env='development'):
     jwt = JWTManager(app)
 
 
-    api = Api(app)
+    api = Api(app, doc='/api')
 
     api.add_namespace(user_account_namespace, path='/user-account')
     api.add_namespace(trucks_cargo_namespace, path='/trucks-cargo')
@@ -73,7 +73,6 @@ def create_app(config_env='development'):
 
     mail.init_app(app)
 
-    # app.register_blueprint(admin_blueprint, url_prefix="/admin-panel")
 
     @app.shell_context_processor
     def make_shell_context():
@@ -91,10 +90,6 @@ def create_app(config_env='development'):
     @app.before_first_request
     def create_user():
 
-        # user=user_datastore.find_user(email="aguilera.cecilia@outlook.com")
-        # user_datastore.delete_user(user)
-        # db.session.commit()
-
 
         if not user_datastore.find_user(email=config_obj.ADMIN_EMAIL_CREDIENTIAL):
             db.create_all()
@@ -104,8 +99,6 @@ def create_app(config_env='development'):
             db.session.commit()
             
         else:
-            # user_datastore.create_user(email="someEmail@gmail.com", password="defualt123", roles=['staff'])
-            # db.session.commit()
             pass
 
         

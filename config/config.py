@@ -29,6 +29,7 @@ class Config(object):
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
     MAIL_STRING_ID = config('MAIL_STRING_ID', 'MAIL_STRING_ID')
+    CORS_ORIGINS=[config('FRONTEND_APP', default="http://localhost:3000")]
 
 
 class ProductionConfig(Config):
