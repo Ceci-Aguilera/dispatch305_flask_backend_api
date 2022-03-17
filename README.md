@@ -25,7 +25,7 @@
 
 1. Configure the environment variables using one of the following methods:
 
-   1. Create an .env file inside the __config__ folder and set up the following environment variables:
+   i. Create an .env file inside the __config__ folder and set up the following environment variables:
 
    ```text
     SECRET_KEY                      (for example "someSecurityPassword")
@@ -41,7 +41,8 @@
    ```
 
    or
-   2. Copy and modify the content of the .example.env file to the .env file:
+
+   ii. Copy and modify the content of the .example.env file to the .env file:
 
    ```bash
    cp config/.example.env config/.env
@@ -85,7 +86,7 @@
 
 1. Config the environment variables using one of the following methods:
 
-   1. Create an .env file inside the __config__ folder and set up the following environment variables:
+   i. Create an .env file inside the __config__ folder and set up the following environment variables:
 
    ```text
     SECRET_KEY                      (for example "someSecurityPassword")
@@ -102,7 +103,8 @@
    ```
 
    or
-   2. Copy and modify the content of the .example.env file to the .env file:
+
+   ii. Copy and modify the content of the .example.env file to the .env file:
 
    ```bash
    cp config/.example.env config/.env
