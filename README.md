@@ -264,9 +264,9 @@ Dispatch305 Backend-Api is divided in the following folders:
    gunicorn --bind 0.0.0.0:5050 wsgi:app
    ```
 
-1. Complete the setup of the website with this [link](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+12. Complete the setup of the website with this [link](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
 
-12. Set up Cors to allow the frontend to fetch and post requests ([See Useful Links](#useful_links))
+13. Set up Cors to allow the frontend to fetch and post requests ([See Useful Links](#useful_links))
 
     <a name="frontend"></a>
 
@@ -280,6 +280,8 @@ Dispatch305 Backend-Api is divided in the following folders:
 ### Screenshots of the Admin Panel
 
 ![alt text](./screeshots/admin_dispatcher_view.png)  ![alt text](./screeshots/admin_dispathcer_user_trucks_cargo_detail_view.png)
+
+![alt text](./screeshots/admin_edit_trucks_cargo.png)  ![alt text](./screeshots/admin_edit_save_trucks_cargo.png)
 
 ---
 

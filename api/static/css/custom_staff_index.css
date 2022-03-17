@@ -125,7 +125,7 @@
   @media screen and (max-width: 578px){
   
       .container{
-  
+        width: 100% !important;
           margin-left: auto !important;
           margin-right: auto !important;
           text-align:center !important;

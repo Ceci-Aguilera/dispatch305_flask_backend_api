@@ -91,11 +91,11 @@ def create_app(config_env='development'):
     def create_user():
 
 
-        if not user_datastore.find_user(email=config_obj.ADMIN_EMAIL_CREDIENTIAL):
+        if not user_datastore.find_user(email=config_obj.ADMIN_EMAIL_CREDENTIAL):
             db.create_all()
             user_datastore.find_or_create_role(name='admin', description='Administrator')
             db.session.commit()
-            user_datastore.create_user(email=config_obj.ADMIN_EMAIL_CREDIENTIAL, password=config_obj.ADMIN_PASSWORD_CREDENTIAL, roles=['admin'])
+            user_datastore.create_user(email=config_obj.ADMIN_EMAIL_CREDENTIAL, password=config_obj.ADMIN_PASSWORD_CREDENTIAL, roles=['admin'])
             db.session.commit()
             
         else:
