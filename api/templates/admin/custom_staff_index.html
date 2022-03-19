@@ -10,46 +10,13 @@
   crossorigin="anonymous"
 />
 
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+
 {% endblock %} {% block body %}
 
 <div class="admin-container">
   <div class="container">
-    <div class="row align-items-center justify-content-between">
-        <div class="col-12">
-
-            <a href="/admin/truckscargo/?flt1_0=SEARCHING">
-                <div class="index-card search-cagos-card">
-
-                    <div class="row align-items-center justify-content-center">
-
-                        <div class="col-8">
-                            <div class="index-card-number">
-                                <span class="index-card-number-span">
-                                <p>{{seraching_cargos}}</p>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="col-2">
-                            <div class="index-card-first-word">
-                                <span class="index-card-first-word-span">
-                                <p>Cargos</p>
-                                </span>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="index-card-second-word">
-                        <span class="index-card-second-word-span">
-                            <p>Searching</p>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-    </div>
+    
 
     <div class="row align-items-center justify-content-center users-row">
 

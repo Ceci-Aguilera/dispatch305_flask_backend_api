@@ -32,6 +32,9 @@ class UserAdmin(db.Model, UserMixin):
     def update(self):
         db.session.commit()
 
+    def __str__(self):
+        return str(self.id) + " - "+ str(self.email)
+
     def __repr__(self):
         if self.has_role('admin'):
             return f"<Admin {self.id} - {self.email}>"

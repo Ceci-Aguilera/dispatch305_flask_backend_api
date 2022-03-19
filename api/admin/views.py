@@ -125,10 +125,10 @@ class UserView(ModelView):
 
 
 
-class TruckCargoView(ModelView):
+class TruckCargoAdminView(ModelView):
 
     def is_accessible(self):
-        return current_user.has_role('admin') or current_user.active == True
+        return current_user.has_role('admin')
 
     column_searchable_list = [
         User.contact_name, User.phone, User.company_name, User.email, Broker.name, ]
@@ -138,7 +138,7 @@ class TruckCargoView(ModelView):
     form_excluded_columns = ['total_owned', 'date_created', 'is_charged']
 
     def _documents_formatter(view, context, model, name):
-        markupstring = "<a href='/staff/truck-cargos-documents/%s' target='_blank'>Documents</a>" % (
+        markupstring = "<a href='/staff/truck-cargos-documents/%s' target='_blank'>Rate and POD</a>" % (
             model.id)
         return Markup(markupstring)
 
@@ -146,8 +146,110 @@ class TruckCargoView(ModelView):
         'documents': _documents_formatter
     }
 
-    column_list = ('request_cargo_status', 'pricing', 'miles', 'weight', 'state_from', 'city_from', 'state_to', 'city_to',
-                   'date_created', 'date_pick_up', 'date_delivery', 'is_charged', 'user_dispatcher', 'driver', 'broker_user', 'documents')
+    # column_list = ('pricing', 'miles', 'weight', 'state_from', 'city_from', 'state_to', 'city_to',
+    #                'date_created', 'date_pick_up', 'date_delivery', 'is_charged', 'user_dispatcher', 'driver', 'broker_user', 'documents')
+
+    column_list = ('driver', 'city_from', 'state_from', 'city_to', 'state_to', 'date_pick_up', 'date_delivery', 'miles', 'weight', 'pricing', 'broker_user', 'documents', 'user_dispatcher')
+
+    column_labels = dict(driver='Driver', city_from='Origen', state_from="ST", city_to='Destino', state_to="ST", date_pick_up="Pick UP", date_delivery="Delivery", miles="Miles", weight='Weight', pricing="Price", broker_user="Broker", documents="Documents", user_dispatcher = "Dispatcher")
+
+
+
+    form_extra_fields = {
+        'driver': fields.QuerySelectField(
+            label='Driver',
+            query_factory=lambda: User.query.all(),
+            widget=Select2Widget()
+        ),
+        'user_dispatcher': fields.QuerySelectField(
+            label='Dispatcher',
+            query_factory=lambda: UserAdmin.query.all(),
+            widget=Select2Widget()
+        ),
+    }
+
+    def scaffold_form(self):
+        form_class = super(TruckCargoAdminView, self).scaffold_form()
+        form_class.charged = BooleanField(default=True)
+        return form_class
+
+    def on_model_change(self, form, model, is_created):
+        if model.charged == True and model.is_charged == False:
+            user = User.query.filter_by(id=model.user).first()
+            plan_percent = 0.06 if user.current_plan == CurrentPlanStatus.VIP else 0.04
+            plan_admin_percent = 0.02 if user.current_plan == CurrentPlanStatus.VIP else 0.01
+            user.pending_bill = decimal.Decimal(user.pending_bill) + decimal.Decimal(
+                model.pricing) * decimal.Decimal(plan_percent)
+            user.update()
+            dispatcher = UserAdmin.query.filter_by(id=model.dispatcher).first()
+            dispatcher.amount_owned_to_admin = decimal.Decimal(dispatcher.amount_owned_to_admin) + decimal.Decimal(
+                model.pricing) * decimal.Decimal(plan_admin_percent)
+            dispatcher.update()
+            model.is_charged = True
+            model.total_owned = decimal.Decimal(
+                model.pricing) * decimal.Decimal(plan_percent)
+
+    def create_model(self, form):
+        created_model = super(TruckCargoAdminView, self).create_model(form)
+        if created_model.charged == True and created_model.is_charged == False:
+            user = User.query.filter_by(id=created_model.user).first()
+            plan_percent = 0.06 if user.current_plan == CurrentPlanStatus.VIP else 0.04
+            plan_admin_percent = 0.02 if user.current_plan == CurrentPlanStatus.VIP else 0.01
+            user.pending_bill = decimal.Decimal(user.pending_bill) + decimal.Decimal(
+                created_model.pricing) * decimal.Decimal(plan_percent)
+            user.update()
+            dispatcher = UserAdmin.query.filter_by(
+                id=created_model.dispatcher).first()
+            dispatcher.amount_owned_to_admin = decimal.Decimal(dispatcher.amount_owned_to_admin) + decimal.Decimal(
+                created_model.pricing) * decimal.Decimal(plan_admin_percent)
+            dispatcher.update()
+            created_model.is_charged = True
+            created_model.total_owned = decimal.Decimal(
+                created_model.pricing) * decimal.Decimal(plan_percent)
+            created_model.save()
+        return created_model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class TruckCargoView(ModelView):
+
+    def is_accessible(self):
+        return current_user.has_role('staff') and current_user.active == True
+
+    column_searchable_list = [
+        User.contact_name, User.phone, User.company_name, User.email, Broker.name, ]
+    column_exclude_list = ['date_founded', ]
+    column_filters = ['request_cargo_status', 'is_charged']
+
+    form_excluded_columns = ['total_owned', 'date_created', 'is_charged']
+
+    def _documents_formatter(view, context, model, name):
+        markupstring = "<a href='/staff/truck-cargos-documents/%s' target='_blank'>Rate and POD</a>" % (
+            model.id)
+        return Markup(markupstring)
+
+    column_formatters = {
+        'documents': _documents_formatter
+    }
+
+    column_list = ('driver', 'city_from', 'state_from', 'city_to', 'state_to', 'date_pick_up', 'date_delivery', 'miles', 'weight', 'pricing', 'broker_user', 'documents')
+
+    column_labels = dict(driver='Driver', city_from='Origen', state_from="ST", city_to='Destino', state_to="ST", date_pick_up="Pick UP", date_delivery="Delivery", miles="Millas", weight='Peso', pricing="Precio", broker_user="Broker", documents="Documents", user_dispatcher = "Dispatcher")
 
     def get_query(self):
         if current_user.has_role('admin'):
@@ -171,13 +273,7 @@ class TruckCargoView(ModelView):
             query_factory=lambda: User.query.filter_by(
                 dispatcher=current_user.id) if current_user.has_role('staff') else User.query.all(),
             widget=Select2Widget()
-        ),
-        'user_dispatcher': fields.QuerySelectField(
-            label='Dispatcher',
-            query_factory=lambda: UserAdmin.query.filter_by(
-                id=current_user.id) if current_user.has_role('staff') else UserAdmin.query.all(),
-            widget=Select2Widget()
-        ),
+        )
     }
 
     def scaffold_form(self):
@@ -229,6 +325,19 @@ class TruckCargoView(ModelView):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 class BrokerView(ModelView):
     column_searchable_list = ['name', ]
     column_filters = ['name', ]
@@ -269,13 +378,13 @@ class MessageView(ModelView):
 
 class UserAdminView(ModelView):
 
-    @action('sendbillinginfo', 'Send Bill', 'Are you sure you want to send bill?')
-    def action_sendbillinginfo(self, ids):
-        count = 0
-        for _id in ids:
-            send_email_staff(_id)
-            count += 1
-        flash("Bill sent to {0} dispatchers(s)".format(count))
+    # @action('sendbillinginfo', 'Send Bill', 'Are you sure you want to send bill?')
+    # def action_sendbillinginfo(self, ids):
+    #     count = 0
+    #     for _id in ids:
+    #         send_email_staff(_id)
+    #         count += 1
+    #     flash("Bill sent to {0} dispatchers(s)".format(count))
 
     column_exclude_list = ('password', 'confirmed_at',)
     form_excluded_columns = ('password', 'confirmed_at',)

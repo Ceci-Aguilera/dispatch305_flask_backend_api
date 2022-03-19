@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect
+from flask import Flask, redirect, url_for
 from flask_migrate import Migrate
 import click
 from flask.cli import with_appcontext
@@ -18,7 +18,7 @@ from .user_account.views import user_account_namespace
 from .trucks_cargo.views import trucks_cargo_namespace
 from .message.views import message_namespace
 # from .admin.views import admin_blueprint
-from .admin.views import UserView, TruckCargoView, MessageView, AdminView, UserAdminView, RoleAdminView, BrokerView, staff_namespace
+from .admin.views import UserView, TruckCargoView, MessageView, AdminView, UserAdminView, RoleAdminView, BrokerView, staff_namespace, TruckCargoAdminView
 
 from .user_account.models import User
 from .trucks_cargo.models import TrucksCargo, Broker
@@ -64,6 +64,7 @@ def create_app(config_env='development'):
     admin = Admin(app, index_view=AdminView())
     admin.add_view(UserView(User, db.session))
     admin.add_view(TruckCargoView(TrucksCargo, db.session))
+    admin.add_view(TruckCargoAdminView(TrucksCargo, db.session, endpoint='truckcargoadmin'))
     admin.add_view(BrokerView(Broker, db.session))
     admin.add_view(MessageView(Message, db.session))
     admin.add_view(UserAdminView(UserAdmin, db.session))
