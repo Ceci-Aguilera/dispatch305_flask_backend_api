@@ -25,6 +25,9 @@ from api.trucks_cargo.models import TrucksCargo, RequestStatus, Broker
 from api.message.models import Message
 from .models import UserAdmin
 
+import base64
+import secrets
+
 
 from flask_security import current_user, login_required, RoleMixin, Security, SQLAlchemyUserDatastore, UserMixin, utils
 
@@ -598,7 +601,7 @@ def send_email_driver(id):
 
     if(user.current_plan == CurrentPlanStatus.BASICO):
         msg = flask_mail.Message('Billing Information', sender=current_app.config['MAIL_USERNAME'], recipients=[
-                             'aguilera.cecilia@outlook.com'])
+                             user.email])
         msg.html = render_template("driver/billing_email.html", user=user, trucks_cargos=trucks_cargos)
     else:
         msg = flask_mail.Message('This Week Analytics', sender=current_app.config['MAIL_USERNAME'], recipients=[
@@ -639,3 +642,6 @@ def send_email_staff(id):
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
     return thr
+
+
+

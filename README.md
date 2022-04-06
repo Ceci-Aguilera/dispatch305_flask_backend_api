@@ -245,6 +245,8 @@ Dispatch305 Backend-Api is divided in the following folders:
    python app.py
    ```
 
+1. Change the frontend domain for reset password in the api/templates/user-account/send-request-reset-password.html file (currently http://localhost:3000)
+
 1. Create wsgi.py file:
 
    ```bash

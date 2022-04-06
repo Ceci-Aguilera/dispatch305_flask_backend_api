@@ -34,6 +34,8 @@ class User(db.Model):
 
     trucks_cargos = db.relationship("TrucksCargo", backref='driver', lazy=True)
 
+    last_token_password = db.Column(db.String(256), nullable=True, default='-1')
+
 
     def save(self):
         db.session.add(self)
